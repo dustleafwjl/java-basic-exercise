@@ -1,4 +1,8 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GrammarExercise {
     public static void main(String[] args) {
@@ -13,6 +17,20 @@ public class GrammarExercise {
 
     public static List<String> findCommonWordsWithSpace(String firstWordList, String secondWordList) {
         //在这编写实现代码
-        return null;
+        if(firstWordList.contains(",,") || !firstWordList.matches("[a-zA-Z,]+") || !secondWordList.matches("[a-zA-Z,]+")) {
+            throw new RuntimeException("input not valid");
+        }
+        List<String> firstArr = Arrays.asList(firstWordList.split(","));
+        List<String> secondArr = Arrays.asList(secondWordList.split(","));
+        List<String> result = firstArr.stream().filter(string -> listContains(secondArr, string)).map(string -> string.toUpperCase().replace("", " ").trim()).distinct().collect(Collectors.toList());
+        return result;
+    }
+    private static boolean listContains(List<String> list, String ele){
+        for(String t:list)
+        {
+            if(t.equalsIgnoreCase(ele))
+                return true;
+        }
+        return false;
     }
 }
